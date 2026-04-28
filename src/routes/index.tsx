@@ -479,7 +479,31 @@ function DashboardPage() {
             <a className="panel-action">Last 30 days</a>
           </div>
           <div className="heatmap-body">
-            <div className="heatmap-grid" id="heatmap"></div>
+            <div className="heatmap-grid">
+              <div />
+              {['12a','2a','4a','6a','8a','10a','12p','2p','4p','6p','8p','10p'].map(h => (
+                <div key={h} className="heatmap-label" style={{ fontSize: '8px', textAlign: 'center' }}>{h}</div>
+              ))}
+              {(() => {
+                const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+                const intensities = [
+                  [1,1,0,0,1,2,4,5,4,3,3,2],
+                  [0,1,1,1,2,3,5,4,4,3,2,2],
+                  [1,0,1,0,2,4,5,5,4,4,3,2],
+                  [1,1,1,1,2,3,4,5,4,3,2,1],
+                  [2,1,1,1,3,4,5,4,4,3,3,2],
+                  [3,2,1,2,3,4,3,3,2,2,2,3],
+                  [3,2,1,2,2,3,2,2,2,2,3,3],
+                ];
+                const colours = ['#F7F6FD','#EEEDFE','#CECBF6','#AFA9EC','#7F77DD','#534AB7'];
+                return days.flatMap((day, di) => [
+                  <div key={`l-${day}`} className="heatmap-label">{day}</div>,
+                  ...intensities[di].map((v, hi) => (
+                    <div key={`c-${day}-${hi}`} className="heatmap-cell" style={{ background: colours[Math.min(v,5)] }} />
+                  )),
+                ]);
+              })()}
+            </div>
             <div className="heatmap-legend">
               <div>After hours bias: <strong style={{color: 'var(--lyraa-deep)'}}>44%</strong></div>
               <div className="heatmap-scale">
