@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainRouteImport } from './routes/train'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as CallsRouteImport } from './routes/calls'
 import { Route as BillingRouteImport } from './routes/billing'
 import { Route as IndexRouteImport } from './routes/index'
@@ -23,6 +25,16 @@ const TrainRoute = TrainRouteImport.update({
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IntegrationsRoute = IntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomersRoute = CustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CallsRoute = CallsRouteImport.update({
@@ -45,6 +57,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/billing': typeof BillingRoute
   '/calls': typeof CallsRoute
+  '/customers': typeof CustomersRoute
+  '/integrations': typeof IntegrationsRoute
   '/settings': typeof SettingsRoute
   '/train': typeof TrainRoute
 }
@@ -52,6 +66,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/billing': typeof BillingRoute
   '/calls': typeof CallsRoute
+  '/customers': typeof CustomersRoute
+  '/integrations': typeof IntegrationsRoute
   '/settings': typeof SettingsRoute
   '/train': typeof TrainRoute
 }
@@ -60,21 +76,47 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/billing': typeof BillingRoute
   '/calls': typeof CallsRoute
+  '/customers': typeof CustomersRoute
+  '/integrations': typeof IntegrationsRoute
   '/settings': typeof SettingsRoute
   '/train': typeof TrainRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/billing' | '/calls' | '/settings' | '/train'
+  fullPaths:
+    | '/'
+    | '/billing'
+    | '/calls'
+    | '/customers'
+    | '/integrations'
+    | '/settings'
+    | '/train'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/billing' | '/calls' | '/settings' | '/train'
-  id: '__root__' | '/' | '/billing' | '/calls' | '/settings' | '/train'
+  to:
+    | '/'
+    | '/billing'
+    | '/calls'
+    | '/customers'
+    | '/integrations'
+    | '/settings'
+    | '/train'
+  id:
+    | '__root__'
+    | '/'
+    | '/billing'
+    | '/calls'
+    | '/customers'
+    | '/integrations'
+    | '/settings'
+    | '/train'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BillingRoute: typeof BillingRoute
   CallsRoute: typeof CallsRoute
+  CustomersRoute: typeof CustomersRoute
+  IntegrationsRoute: typeof IntegrationsRoute
   SettingsRoute: typeof SettingsRoute
   TrainRoute: typeof TrainRoute
 }
@@ -93,6 +135,20 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/integrations': {
+      id: '/integrations'
+      path: '/integrations'
+      fullPath: '/integrations'
+      preLoaderRoute: typeof IntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customers': {
+      id: '/customers'
+      path: '/customers'
+      fullPath: '/customers'
+      preLoaderRoute: typeof CustomersRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/calls': {
@@ -123,6 +179,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BillingRoute: BillingRoute,
   CallsRoute: CallsRoute,
+  CustomersRoute: CustomersRoute,
+  IntegrationsRoute: IntegrationsRoute,
   SettingsRoute: SettingsRoute,
   TrainRoute: TrainRoute,
 }
