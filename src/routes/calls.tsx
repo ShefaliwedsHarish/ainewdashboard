@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import "@/styles/calls.css";
 
 export const Route = createFileRoute("/calls")({
@@ -14,6 +15,9 @@ export const Route = createFileRoute("/calls")({
 });
 
 function CallsPage() {
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const openDrawer = () => setDrawerOpen(true);
+  const closeDrawer = () => setDrawerOpen(false);
   return (
     <>
       <div className="app">
@@ -195,7 +199,7 @@ function CallsPage() {
         </div>
 
         {/* LIVE row */}
-        <div className="table-row live">
+        <div className="table-row live" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar live">TB</div>
             <div className="caller-info">
@@ -227,7 +231,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">SM</div>
             <div className="caller-info">
@@ -260,7 +264,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">PS</div>
             <div className="caller-info">
@@ -292,7 +296,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">MD</div>
             <div className="caller-info">
@@ -325,7 +329,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">JW</div>
             <div className="caller-info">
@@ -357,7 +361,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">PD</div>
             <div className="caller-info">
@@ -389,7 +393,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar unknown">?</div>
             <div className="caller-info">
@@ -421,7 +425,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">DC</div>
             <div className="caller-info">
@@ -453,7 +457,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">RK</div>
             <div className="caller-info">
@@ -486,7 +490,7 @@ function CallsPage() {
           </div>
         </div>
 
-        <div className="table-row">
+        <div className="table-row" onClick={openDrawer}>
           <div className="caller-cell">
             <div className="caller-avatar">LD</div>
             <div className="caller-info">
@@ -544,8 +548,8 @@ function CallsPage() {
 </div>
 
 {/* DRAWER */}
-<div className="drawer-overlay" id="overlay"></div>
-<div className="drawer" id="drawer">
+<div className={"drawer-overlay" + (drawerOpen ? " open" : "")} onClick={closeDrawer}></div>
+<div className={"drawer" + (drawerOpen ? " open" : "")}>
 
   <div className="drawer-header">
     <div className="drawer-title-block">
@@ -559,7 +563,7 @@ function CallsPage() {
       <button className="action-btn" title="Share">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
       </button>
-      <button className="action-btn" title="Close">
+      <button className="action-btn" title="Close" onClick={closeDrawer}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
