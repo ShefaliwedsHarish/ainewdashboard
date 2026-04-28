@@ -36,6 +36,10 @@ export const Route = createRootRoute({
       { property: "og:description", content: "Lyraa — your AI receptionist that answers calls 24/7." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "Lyraa — AI Receptionist" },
+      { name: "twitter:description", content: "Lyraa — your AI receptionist that answers calls 24/7." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/595d2ce1-263a-4fa6-90e4-c51efcb1e73e/id-preview-16d6cf18--24441c69-5ed0-408e-86a1-c8c69519ba39.lovable.app-1777372096243.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/595d2ce1-263a-4fa6-90e4-c51efcb1e73e/id-preview-16d6cf18--24441c69-5ed0-408e-86a1-c8c69519ba39.lovable.app-1777372096243.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
