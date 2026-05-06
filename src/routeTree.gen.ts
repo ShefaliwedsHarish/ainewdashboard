@@ -10,16 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as TrainRouteImport } from './routes/train'
+import { Route as SubscribePlanRouteImport } from './routes/subscribe-plan'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as IntegrationsRouteImport } from './routes/integrations'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as CallsRouteImport } from './routes/calls'
 import { Route as BillingRouteImport } from './routes/billing'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiUsersRouteImport } from './routes/api.users'
+import { Route as ApiUsersIdRouteImport } from './routes/api.users.$id'
 
 const TrainRoute = TrainRouteImport.update({
   id: '/train',
   path: '/train',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubscribePlanRoute = SubscribePlanRouteImport.update({
+  id: '/subscribe-plan',
+  path: '/subscribe-plan',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -27,9 +38,24 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IntegrationsRoute = IntegrationsRouteImport.update({
   id: '/integrations',
   path: '/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersRoute = CustomersRouteImport.update({
@@ -52,24 +78,46 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiUsersRoute = ApiUsersRouteImport.update({
+  id: '/api/users',
+  path: '/api/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiUsersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/billing': typeof BillingRoute
   '/calls': typeof CallsRoute
   '/customers': typeof CustomersRoute
+  '/dashboard': typeof DashboardRoute
   '/integrations': typeof IntegrationsRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/subscribe-plan': typeof SubscribePlanRoute
   '/train': typeof TrainRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
+  '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/billing': typeof BillingRoute
   '/calls': typeof CallsRoute
   '/customers': typeof CustomersRoute
+  '/dashboard': typeof DashboardRoute
   '/integrations': typeof IntegrationsRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/subscribe-plan': typeof SubscribePlanRoute
   '/train': typeof TrainRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
+  '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,9 +125,15 @@ export interface FileRoutesById {
   '/billing': typeof BillingRoute
   '/calls': typeof CallsRoute
   '/customers': typeof CustomersRoute
+  '/dashboard': typeof DashboardRoute
   '/integrations': typeof IntegrationsRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
   '/settings': typeof SettingsRoute
+  '/subscribe-plan': typeof SubscribePlanRoute
   '/train': typeof TrainRoute
+  '/api/users': typeof ApiUsersRouteWithChildren
+  '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -88,27 +142,45 @@ export interface FileRouteTypes {
     | '/billing'
     | '/calls'
     | '/customers'
+    | '/dashboard'
     | '/integrations'
+    | '/login'
+    | '/register'
     | '/settings'
+    | '/subscribe-plan'
     | '/train'
+    | '/api/users'
+    | '/api/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/billing'
     | '/calls'
     | '/customers'
+    | '/dashboard'
     | '/integrations'
+    | '/login'
+    | '/register'
     | '/settings'
+    | '/subscribe-plan'
     | '/train'
+    | '/api/users'
+    | '/api/users/$id'
   id:
     | '__root__'
     | '/'
     | '/billing'
     | '/calls'
     | '/customers'
+    | '/dashboard'
     | '/integrations'
+    | '/login'
+    | '/register'
     | '/settings'
+    | '/subscribe-plan'
     | '/train'
+    | '/api/users'
+    | '/api/users/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -116,9 +188,14 @@ export interface RootRouteChildren {
   BillingRoute: typeof BillingRoute
   CallsRoute: typeof CallsRoute
   CustomersRoute: typeof CustomersRoute
+  DashboardRoute: typeof DashboardRoute
   IntegrationsRoute: typeof IntegrationsRoute
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
   SettingsRoute: typeof SettingsRoute
+  SubscribePlanRoute: typeof SubscribePlanRoute
   TrainRoute: typeof TrainRoute
+  ApiUsersRoute: typeof ApiUsersRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -130,6 +207,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrainRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/subscribe-plan': {
+      id: '/subscribe-plan'
+      path: '/subscribe-plan'
+      fullPath: '/subscribe-plan'
+      preLoaderRoute: typeof SubscribePlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings': {
       id: '/settings'
       path: '/settings'
@@ -137,11 +221,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/integrations': {
       id: '/integrations'
       path: '/integrations'
       fullPath: '/integrations'
       preLoaderRoute: typeof IntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers': {
@@ -172,17 +277,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/users': {
+      id: '/api/users'
+      path: '/api/users'
+      fullPath: '/api/users'
+      preLoaderRoute: typeof ApiUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/users/$id': {
+      id: '/api/users/$id'
+      path: '/$id'
+      fullPath: '/api/users/$id'
+      preLoaderRoute: typeof ApiUsersIdRouteImport
+      parentRoute: typeof ApiUsersRoute
+    }
   }
 }
+
+interface ApiUsersRouteChildren {
+  ApiUsersIdRoute: typeof ApiUsersIdRoute
+}
+
+const ApiUsersRouteChildren: ApiUsersRouteChildren = {
+  ApiUsersIdRoute: ApiUsersIdRoute,
+}
+
+const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
+  ApiUsersRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BillingRoute: BillingRoute,
   CallsRoute: CallsRoute,
   CustomersRoute: CustomersRoute,
+  DashboardRoute: DashboardRoute,
   IntegrationsRoute: IntegrationsRoute,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
   SettingsRoute: SettingsRoute,
+  SubscribePlanRoute: SubscribePlanRoute,
   TrainRoute: TrainRoute,
+  ApiUsersRoute: ApiUsersRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -837,10 +837,16 @@
     color: white;
     border-color: var(--lyraa-deep);
   }
+  /* agent = right side, caller/user = left side */
   .turn {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 16px;
+    flex-direction: row-reverse; /* agent on right by default */
+    align-items: flex-start;
+  }
+  .turn.caller {
+    flex-direction: row; /* caller on left */
   }
   .turn-avatar {
     width: 28px;
@@ -861,12 +867,19 @@
   .turn-avatar.caller {
     background: linear-gradient(135deg, var(--lyraa-warm), var(--lyraa-alert));
   }
-  .turn-content { flex: 1; min-width: 0; }
+  .turn-content {
+    max-width: 75%;
+    min-width: 0;
+  }
   .turn-meta {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 4px;
+    justify-content: flex-end; /* agent label right-aligned */
+  }
+  .turn.caller .turn-meta {
+    justify-content: flex-start; /* caller label left-aligned */
   }
   .turn-name {
     font-size: 11px;
@@ -886,11 +899,11 @@
     color: var(--lyraa-ink);
     background: var(--lyraa-canvas);
     padding: 10px 14px;
-    border-radius: 0 12px 12px 12px;
+    border-radius: 12px 0 12px 12px; /* agent bubble: top-right flat */
   }
   .turn.caller .turn-text {
     background: var(--lyraa-whisper);
-    border-radius: 12px 0 12px 12px;
+    border-radius: 0 12px 12px 12px; /* caller bubble: top-left flat */
   }
 
   /* FOOTER ACTIONS */

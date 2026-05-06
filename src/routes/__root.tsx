@@ -1,6 +1,12 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRoute, HeadContent, Scripts, redirect } from "@tanstack/react-router";
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
+import { Toaster } from '@/components/ui/sonner';
 
 import appCss from "../styles.css?url";
+
+// Public routes that don't require authentication
+const PUBLIC_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password'];
 
 function NotFoundComponent() {
   return (
@@ -25,6 +31,24 @@ function NotFoundComponent() {
 }
 
 export const Route = createRootRoute({
+  beforeLoad: ({ location }) => {
+    // Skip auth checks during SSR
+    if (typeof window === 'undefined') return;
+
+    const token = localStorage.getItem('auth_token');
+    const currentPath = location.pathname;
+    const isPublicRoute = PUBLIC_ROUTES.some(r => currentPath.startsWith(r));
+
+    // Not logged in, trying to access protected route
+    if (!token && !isPublicRoute) {
+      throw redirect({ to: '/login' });
+    }
+
+    // Logged in, trying to access public route
+    if (token && isPublicRoute) {
+      throw redirect({ to: '/dashboard' });
+    }
+  },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -63,7 +87,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        {children}
+        <Provider store={store}>
+          {children}
+          <Toaster />
+        </Provider>
         <Scripts />
       </body>
     </html>

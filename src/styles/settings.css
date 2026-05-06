@@ -708,3 +708,23 @@
     .form-row.two, .form-row.three { grid-template-columns: 1fr; }
     .integrations-grid { grid-template-columns: 1fr; }
   }
+
+/* Profile incomplete banner */
+.profile-incomplete-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--lyraa-alert-bg);
+  border: 1px solid var(--lyraa-alert);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: #7a4a00;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.profile-incomplete-banner svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--lyraa-alert);
+}
