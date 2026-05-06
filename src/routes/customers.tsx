@@ -69,6 +69,8 @@ function statusClass(s: Customer["status"]) {
 function CustomersPage() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState<Customer | null>(null);
+  const closeDrawer = () => setSelected(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
