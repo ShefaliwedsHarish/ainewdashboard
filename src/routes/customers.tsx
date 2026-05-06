@@ -69,6 +69,8 @@ function statusClass(s: Customer["status"]) {
 function CustomersPage() {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const [selected, setSelected] = useState<Customer | null>(null);
+  const closeDrawer = () => setSelected(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -203,7 +205,7 @@ function CustomersPage() {
               </div>
             ) : (
               rows.map((c) => (
-                <div className="table-row" key={c.id}>
+                <div className="table-row" key={c.id} onClick={() => setSelected(c)}>
                   <div className="cust-name">
                     <span className="cust-avatar">{initials(c.name)}</span>
                     <div className="cust-name-meta">
@@ -252,6 +254,56 @@ function CustomersPage() {
           </div>
         </div>
       </div>
+
+      <div className={"drawer-overlay" + (selected ? " open" : "")} onClick={closeDrawer}></div>
+      <aside className={"drawer" + (selected ? " open" : "")} role="dialog" aria-hidden={!selected}>
+        {selected && (
+          <>
+            <div className="drawer-header">
+              <div className="drawer-title-block">
+                <div className="drawer-eyebrow">Customer · {selected.id}</div>
+                <div className="drawer-title">
+                  <span className="cust-avatar">{initials(selected.name)}</span>
+                  {selected.name}
+                  <span className={statusClass(selected.status)} style={{ marginLeft: 6 }}>{selected.status}</span>
+                </div>
+              </div>
+              <div className="drawer-actions">
+                <button className="btn-secondary" onClick={closeDrawer}>Close</button>
+              </div>
+            </div>
+            <div className="drawer-body">
+              <div style={{ padding: "20px 24px", display: "grid", gap: 18 }}>
+                <DetailRow label="Email" value={selected.email} />
+                <DetailRow label="Phone" value={selected.phone} />
+                <DetailRow label="Source" value={selected.source} />
+                <DetailRow label="Last contact" value={selected.lastContact} />
+                <DetailRow label="Total calls" value={String(selected.calls)} />
+                <DetailRow label="Status" value={selected.status} />
+                <div>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "var(--lyraa-fog)", textTransform: "uppercase", letterSpacing: 0.4, marginBottom: 8 }}>Notes</div>
+                  <div style={{ fontSize: 13, color: "var(--lyraa-ink)", lineHeight: 1.6, padding: 14, background: "var(--lyraa-canvas)", borderRadius: 10, border: "var(--border)" }}>
+                    Lyraa last spoke with {selected.name.split(" ")[0]} regarding their inquiry from {selected.source.toLowerCase()}. Follow-up scheduled.
+                  </div>
+                </div>
+                <div style={{ display: "flex", gap: 8 }}>
+                  <button className="btn-primary" style={{ flex: 1 }}>Call customer</button>
+                  <button className="btn-secondary" style={{ flex: 1 }}>Send email</button>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+      </aside>
+    </div>
+  );
+}
+
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 12, alignItems: "baseline" }}>
+      <div style={{ fontSize: 11, fontWeight: 600, color: "var(--lyraa-fog)", textTransform: "uppercase", letterSpacing: 0.4 }}>{label}</div>
+      <div style={{ fontSize: 13, color: "var(--lyraa-ink)" }}>{value}</div>
     </div>
   );
 }
