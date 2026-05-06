@@ -205,7 +205,7 @@ function CustomersPage() {
               </div>
             ) : (
               rows.map((c) => (
-                <div className="table-row" key={c.id}>
+                <div className="table-row" key={c.id} onClick={() => setSelected(c)}>
                   <div className="cust-name">
                     <span className="cust-avatar">{initials(c.name)}</span>
                     <div className="cust-name-meta">
