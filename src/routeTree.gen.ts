@@ -20,8 +20,6 @@ import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as CallsRouteImport } from './routes/calls'
 import { Route as BillingRouteImport } from './routes/billing'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiUsersRouteImport } from './routes/api.users'
-import { Route as ApiUsersIdRouteImport } from './routes/api.users.$id'
 
 const TrainRoute = TrainRouteImport.update({
   id: '/train',
@@ -78,16 +76,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiUsersRoute = ApiUsersRouteImport.update({
-  id: '/api/users',
-  path: '/api/users',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiUsersIdRoute = ApiUsersIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => ApiUsersRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -101,8 +89,6 @@ export interface FileRoutesByFullPath {
   '/settings': typeof SettingsRoute
   '/subscribe-plan': typeof SubscribePlanRoute
   '/train': typeof TrainRoute
-  '/api/users': typeof ApiUsersRouteWithChildren
-  '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -116,8 +102,6 @@ export interface FileRoutesByTo {
   '/settings': typeof SettingsRoute
   '/subscribe-plan': typeof SubscribePlanRoute
   '/train': typeof TrainRoute
-  '/api/users': typeof ApiUsersRouteWithChildren
-  '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -132,8 +116,6 @@ export interface FileRoutesById {
   '/settings': typeof SettingsRoute
   '/subscribe-plan': typeof SubscribePlanRoute
   '/train': typeof TrainRoute
-  '/api/users': typeof ApiUsersRouteWithChildren
-  '/api/users/$id': typeof ApiUsersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -149,8 +131,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/subscribe-plan'
     | '/train'
-    | '/api/users'
-    | '/api/users/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -164,8 +144,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/subscribe-plan'
     | '/train'
-    | '/api/users'
-    | '/api/users/$id'
   id:
     | '__root__'
     | '/'
@@ -179,8 +157,6 @@ export interface FileRouteTypes {
     | '/settings'
     | '/subscribe-plan'
     | '/train'
-    | '/api/users'
-    | '/api/users/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -195,7 +171,6 @@ export interface RootRouteChildren {
   SettingsRoute: typeof SettingsRoute
   SubscribePlanRoute: typeof SubscribePlanRoute
   TrainRoute: typeof TrainRoute
-  ApiUsersRoute: typeof ApiUsersRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -277,34 +252,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/users': {
-      id: '/api/users'
-      path: '/api/users'
-      fullPath: '/api/users'
-      preLoaderRoute: typeof ApiUsersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/users/$id': {
-      id: '/api/users/$id'
-      path: '/$id'
-      fullPath: '/api/users/$id'
-      preLoaderRoute: typeof ApiUsersIdRouteImport
-      parentRoute: typeof ApiUsersRoute
-    }
   }
 }
-
-interface ApiUsersRouteChildren {
-  ApiUsersIdRoute: typeof ApiUsersIdRoute
-}
-
-const ApiUsersRouteChildren: ApiUsersRouteChildren = {
-  ApiUsersIdRoute: ApiUsersIdRoute,
-}
-
-const ApiUsersRouteWithChildren = ApiUsersRoute._addFileChildren(
-  ApiUsersRouteChildren,
-)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -318,7 +267,6 @@ const rootRouteChildren: RootRouteChildren = {
   SettingsRoute: SettingsRoute,
   SubscribePlanRoute: SubscribePlanRoute,
   TrainRoute: TrainRoute,
-  ApiUsersRoute: ApiUsersRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

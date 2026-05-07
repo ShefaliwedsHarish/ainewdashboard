@@ -135,7 +135,15 @@ function CustomersPage() {
   return (
     <>
       <MainLayout title="Customers" subtitle={`${total} contacts captured by Lyraa`}>
-        <div className="cust-toolbar">
+        {loading ? (
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: "16px" }}>
+            <div style={{ width: "40px", height: "40px", border: "3px solid var(--lyraa-whisper)", borderTopColor: "var(--lyraa-signal)", borderRadius: "50%", animation: "spin 0.75s linear infinite" }} />
+            <div style={{ fontSize: "13px", color: "var(--lyraa-fog)" }}>Loading customers…</div>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        ) : (
+          <>
+            <div className="cust-toolbar">
           <div className="cust-search">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -223,6 +231,8 @@ function CustomersPage() {
             </div>
           )}
         </div>
+          </>
+        )}
       </MainLayout>
 
       {/* DRAWER OVERLAY */}

@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { apiService } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 import type { AITrainingState } from "@/components/ai-training/types";
 
@@ -15,21 +15,21 @@ const { base, byId } = API_ROUTES.aiTraining;
 export const aiTrainingService = {
   // GET /api/agent  — load existing config
   getConfig: () =>
-    api.get<AITrainingConfig>(base).then((r) => r.data),
+    apiService.get<AITrainingConfig>(base),
 
   // POST /api/agent  — create new config
   createConfig: (data: AITrainingPayload) =>
-    api.post<AITrainingConfig>(base, data).then((r) => r.data),
+    apiService.post<AITrainingConfig>(base, data),
 
   // PUT /api/agent/{id}  — full update
   updateConfig: (id: string, data: AITrainingPayload) =>
-    api.put<AITrainingConfig>(byId(id), data).then((r) => r.data),
+    apiService.put<AITrainingConfig>(byId(id), data),
 
   // PATCH /api/agent/{id}  — partial update
   patchConfig: (id: string, data: Partial<AITrainingPayload>) =>
-    api.patch<AITrainingConfig>(byId(id), data).then((r) => r.data),
+    apiService.patch<AITrainingConfig>(byId(id), data),
 
   // DELETE /api/agent/{id}
   deleteConfig: (id: string) =>
-    api.delete(byId(id)).then((r) => r.data),
+    apiService.delete(byId(id)),
 };

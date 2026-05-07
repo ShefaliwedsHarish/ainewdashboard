@@ -195,24 +195,31 @@ function CallsPage() {
   return (
     <>
       <MainLayout title="All calls" subtitle="">
+        {loading && (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(255,255,255,0.8)", zIndex: 100, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "16px" }}>
+            <div style={{ width: "40px", height: "40px", border: "3px solid var(--lyraa-whisper)", borderTopColor: "var(--lyraa-signal)", borderRadius: "50%", animation: "spin 0.75s linear infinite" }} />
+            <div style={{ fontSize: "13px", color: "var(--lyraa-fog)" }}>Loading calls…</div>
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+          </div>
+        )}
         {/* PAGE HEADER */}
         <div className="page-header">
-          <div className="page-title-block">
-            <div className="page-eyebrow">All time</div>
-            <div className="page-title">Calls</div>
-            <div className="page-subtitle">Every conversation Lyraa handled, with full transcripts and recordings.</div>
-          </div>
-          <div className="page-actions">
-            <button className="btn-secondary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Export CSV
-            </button>
-            <button className="btn-primary">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-              Test Call
-            </button>
-          </div>
-        </div>
+              <div className="page-title-block">
+                <div className="page-eyebrow">All time</div>
+                <div className="page-title">Calls</div>
+                <div className="page-subtitle">Every conversation Lyraa handled, with full transcripts and recordings.</div>
+              </div>
+              <div className="page-actions">
+                <button className="btn-secondary">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Export CSV
+                </button>
+                <button className="btn-primary">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Test Call
+                </button>
+              </div>
+            </div>
 
         {/* SUMMARY STRIP */}
         <div className="summary-strip">
@@ -342,7 +349,7 @@ function CallsPage() {
               </div>
             </div>
           )}
-        </div>
+          </div>
       </MainLayout>
 
       {/* DRAWER */}

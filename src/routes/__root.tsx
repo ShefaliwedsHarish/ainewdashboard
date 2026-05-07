@@ -32,12 +32,17 @@ function NotFoundComponent() {
 
 export const Route = createRootRoute({
   beforeLoad: ({ location }) => {
-    // Skip auth checks during SSR
-    if (typeof window === 'undefined') return;
-
-    const token = localStorage.getItem('auth_token');
     const currentPath = location.pathname;
     const isPublicRoute = PUBLIC_ROUTES.some(r => currentPath.startsWith(r));
+
+    // Skip auth checks during SSR
+    if (typeof window === 'undefined') {
+      // During SSR, we need to allow public routes to render
+      // Protected routes will be handled by individual route guards
+      return;
+    }
+
+    const token = localStorage.getItem('auth_token');
 
     // Not logged in, trying to access protected route
     if (!token && !isPublicRoute) {

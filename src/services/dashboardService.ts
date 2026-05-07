@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { apiService } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 
 export interface DashboardStats {
@@ -36,5 +36,5 @@ export interface DashboardData {
 
 export const dashboardService = {
   getData: () =>
-    api.get<DashboardData>(API_ROUTES.dashboard.base).then((r) => r.data),
+    apiService.get<DashboardData>(API_ROUTES.dashboard.base),
 };

@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { apiService } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 
 export interface FAQ {
@@ -67,21 +67,21 @@ const { base, byId } = API_ROUTES.agent;
 export const aiAgentsService = {
   // GET /api/agent
   getAll: () =>
-    api.get<RawAgent[]>(base).then((r) => r.data.map(normalize)),
+    apiService.get<RawAgent[]>(base).then((r) => r.map(normalize)),
 
   // GET /api/agent/{id}
   getById: (id: string) =>
-    api.get<RawAgent>(byId(id)).then((r) => normalize(r.data)),
+    apiService.get<RawAgent>(byId(id)).then((r) => normalize(r)),
 
   // POST /api/agent
   create: (data: Omit<AIAgent, "id">) =>
-    api.post<RawAgent>(base, data).then((r) => normalize(r.data)),
+    apiService.post<RawAgent>(base, data).then((r) => normalize(r)),
 
   // PUT /api/agent/{id}
   update: (id: string, data: Omit<AIAgent, "id">) =>
-    api.put<RawAgent>(byId(id), data).then((r) => normalize(r.data)),
+    apiService.put<RawAgent>(byId(id), data).then((r) => normalize(r)),
 
   // DELETE /api/agent/{id}
   delete: (id: string) =>
-    api.delete(byId(id)).then((r) => r.data),
+    apiService.delete(byId(id)),
 };

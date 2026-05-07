@@ -160,12 +160,15 @@ function DashboardPage() {
   const [chartData, setChartData] = useState<ChartPoint[]>([]);
   const [chartPeriod, setChartPeriod] = useState<7 | 30 | 90>(7);
   const [chartLoading, setChartLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiService.get<DashboardData>(API_ROUTES.dashboard.base).then(setData).catch(console.error);
-    billingService.getMyPlan().then(setMyPlan).catch(console.error);
-    apiService.get<CallTypesData>(`${API_ROUTES.dashboard.base}/call-types`).then(setCallTypes).catch(console.error);
-    apiService.get<HeatmapData>(`${API_ROUTES.dashboard.base}/calls-heatmap`, { period: 30 }).then(setHeatmap).catch(console.error);
+    Promise.allSettled([
+      apiService.get<DashboardData>(API_ROUTES.dashboard.base).then(setData),
+      billingService.getMyPlan().then(setMyPlan),
+      apiService.get<CallTypesData>(`${API_ROUTES.dashboard.base}/call-types`).then(setCallTypes),
+      apiService.get<HeatmapData>(`${API_ROUTES.dashboard.base}/calls-heatmap`, { period: 30 }).then(setHeatmap),
+    ]).finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -181,6 +184,18 @@ function DashboardPage() {
   const recentCalls = (data?.recent_calls ?? []).slice(0, 5);
   const phoneNumbers = data?.phone_numbers ?? [];
   const primaryNumber = phoneNumbers[0] ?? null;
+
+  if (loading) {
+    return (
+      <MainLayout title="Dashboard" subtitle="Good afternoon 👋">
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: "16px" }}>
+          <div style={{ width: "40px", height: "40px", border: "3px solid var(--lyraa-whisper)", borderTopColor: "var(--lyraa-signal)", borderRadius: "50%", animation: "spin 0.75s linear infinite" }} />
+          <div style={{ fontSize: "13px", color: "var(--lyraa-fog)" }}>Loading dashboard…</div>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout title="Dashboard" subtitle="Good afternoon 👋">

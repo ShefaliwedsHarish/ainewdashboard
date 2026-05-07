@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import Axios from '@/utils/Axios';
 import { useDispatch } from 'react-redux';
@@ -20,6 +20,11 @@ function LoginPage() {
   const searchParams = useSearch({ from: '/login' }) as any;
   const [showResend, setShowResend] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     if (searchParams?.verified === '1') {
@@ -93,36 +98,50 @@ function LoginPage() {
     }
   };
 
+  // Prevent flash of content during hydration
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen flex">
       {/* Left panel — Lyraa hero */}
       <LyraaHeroPanel />
 
       {/* Right panel */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-background">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-foreground tracking-tight">
+      <div className="flex-1 flex items-center justify-center p-8 bg-[#FFFEF9]">
+        <div className="w-full max-w-[340px]">
+          <div className="mb-8 text-center">
+            <h1 className="text-[26px] font-bold text-gray-900 leading-tight mb-1">
               Welcome back
-              <br />
-              <span className="text-foreground">to lyraa</span>
             </h1>
-            <p className="mt-3 text-sm text-muted-foreground">
+            <h1 className="text-[26px] font-bold text-gray-900 leading-tight mb-3">
+              to lyraa
+            </h1>
+            <p className="text-[13px] text-gray-600">
               Don't have an account?{' '}
-              <a href="/register" className="text-primary font-medium hover:underline">
+              <a href="/register" className="text-[#6B5FCF] font-medium hover:underline">
                 Register
               </a>
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Email</Label>
+            <div>
+              <Label className="text-[13px] font-medium text-gray-900 mb-2 block">Email</Label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <svg 
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none z-10" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
                 <Input
                   placeholder="you@company.com"
-                  className="pl-10 h-12 rounded-xl border-border bg-background"
+                  className="h-[44px] rounded-lg border-gray-300 bg-white text-[14px] pl-11 pr-4 focus:border-[#6B5FCF] focus:ring-1 focus:ring-[#6B5FCF]"
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -131,13 +150,21 @@ function LoginPage() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Password</Label>
+            <div>
+              <Label className="text-[13px] font-medium text-gray-900 mb-2 block">Password</Label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <svg 
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-[18px] h-[18px] text-gray-400 pointer-events-none z-10" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
                 <Input
                   placeholder="••••••••"
-                  className="pl-10 pr-12 h-12 rounded-xl border-border bg-background"
+                  className="h-[44px] rounded-lg border-gray-300 bg-white text-[14px] pl-11 pr-11 focus:border-[#6B5FCF] focus:ring-1 focus:ring-[#6B5FCF]"
                   type={showPassword ? 'text' : 'password'}
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -146,25 +173,25 @@ function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 z-10"
+                  suppressHydrationWarning
                 >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showPassword ? <EyeOff className="w-[18px] h-[18px]" /> : <Eye className="w-[18px] h-[18px]" />}
                 </button>
               </div>
-            </div>
-
-            <div className="text-right">
-              <a
-                href="/forgot-password"
-                className="text-sm text-primary font-medium hover:underline"
-              >
-                Forgot password?
-              </a>
+              <div className="text-right mt-2">
+                <a
+                  href="/forgot-password"
+                  className="text-[12px] text-gray-500 hover:text-gray-700 hover:underline"
+                >
+                  Forgot password?
+                </a>
+              </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full h-12 rounded-xl text-base font-semibold"
+              className="w-full h-[44px] rounded-lg text-[14px] font-semibold bg-[#6B5FCF] hover:bg-[#5A4EBF] text-white mt-2"
               disabled={loading}
             >
               {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
@@ -172,13 +199,13 @@ function LoginPage() {
             </Button>
 
             {showResend && (
-              <p className="text-sm text-center text-muted-foreground">
+              <p className="text-sm text-center text-gray-600 mt-4">
                 Didn't get the email?{' '}
                 <button
                   type="button"
                   onClick={handleResend}
                   disabled={resendLoading}
-                  className="text-primary font-medium hover:underline disabled:opacity-50"
+                  className="text-[#6B5FCF] font-medium hover:underline disabled:opacity-50"
                 >
                   {resendLoading ? 'Sending...' : 'Resend verification email'}
                 </button>

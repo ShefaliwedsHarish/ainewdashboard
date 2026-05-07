@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { apiService } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 
 export interface UserProfile {
@@ -20,7 +20,7 @@ const { profile, changePassword } = API_ROUTES.settings;
 export const settingsService = {
   // GET /api/profile
   getProfile: () =>
-    api.get<UserProfile>(profile).then((r) => r.data),
+    apiService.get<UserProfile>(profile),
 
   // POST /api/profile (multipart for profile_pic upload)
   updateProfile: (data: Partial<UserProfile> & { profile_pic?: File }) => {
@@ -30,14 +30,10 @@ export const settingsService = {
     if (data.phone_number) form.append("phone_number", data.phone_number);
     if (data.profile_pic) form.append("profile_pic", data.profile_pic);
 
-    return api
-      .post<UserProfile>(profile, form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-      .then((r) => r.data);
+    return apiService.post<UserProfile>(profile, form);
   },
 
   // POST /api/change-password
   changePassword: (data: ChangePasswordPayload) =>
-    api.post(changePassword, data).then((r) => r.data),
+    apiService.post(changePassword, data),
 };

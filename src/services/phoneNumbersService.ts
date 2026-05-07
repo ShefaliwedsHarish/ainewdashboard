@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { apiService } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 
 export interface PhoneNumber {
@@ -14,17 +14,17 @@ const { base, byId } = API_ROUTES.phoneNumbers;
 
 export const phoneNumbersService = {
   getAll: () =>
-    api.get<PhoneNumber[]>(base).then((r) => r.data),
+    apiService.get<PhoneNumber[]>(base),
 
   getById: (id: string) =>
-    api.get<PhoneNumber>(byId(id)).then((r) => r.data),
+    apiService.get<PhoneNumber>(byId(id)),
 
   create: (data: Omit<PhoneNumber, "id" | "createdAt">) =>
-    api.post<PhoneNumber>(base, data).then((r) => r.data),
+    apiService.post<PhoneNumber>(base, data),
 
   update: (id: string, data: PhoneNumber) =>
-    api.put<PhoneNumber>(byId(id), data).then((r) => r.data),
+    apiService.put<PhoneNumber>(byId(id), data),
 
   delete: (id: string) =>
-    api.delete(byId(id)).then((r) => r.data),
+    apiService.delete(byId(id)),
 };

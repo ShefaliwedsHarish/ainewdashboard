@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { apiService } from "./api";
 import { API_ROUTES } from "./apiRoutes";
 
 export interface LoginPayload {
@@ -25,17 +25,17 @@ const { login, register, logout, forgotPassword, resetPassword } = API_ROUTES.au
 
 export const authService = {
   login: (data: LoginPayload) =>
-    api.post<AuthResponse>(login, data).then((r) => r.data),
+    apiService.post<AuthResponse>(login, data),
 
   signup: (data: SignupPayload) =>
-    api.post<AuthResponse>(register, data).then((r) => r.data),
+    apiService.post<AuthResponse>(register, data),
 
   logout: () =>
-    api.post(logout).then((r) => r.data),
+    apiService.post(logout),
 
   forgotPassword: (email: string) =>
-    api.post(forgotPassword, { email }).then((r) => r.data),
+    apiService.post(forgotPassword, { email }),
 
   resetPassword: (token: string, email: string, password: string, password_confirmation: string) =>
-    api.post(resetPassword, { token, email, password, password_confirmation }).then((r) => r.data),
+    apiService.post(resetPassword, { token, email, password, password_confirmation }),
 };
